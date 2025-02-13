@@ -59,4 +59,14 @@ class CollectionTest extends TestCase
         $collection->put(0, 1);
         $this->assertEquals(1, $collection->first());
     }
+
+    // mapping
+    public function testMapping(): void
+    {
+        $collection = collect([1,2,3]);
+        $collection = $collection->map(function ($item, $key) {
+            return $item * 2;
+        });
+        $this->assertEqualsCanonicalizing([2,4,6], $collection->all());
+    }
 }
