@@ -18,4 +18,21 @@ class CollectionTest extends TestCase
         $this->assertEqualsCanonicalizing([1,2,3], $collection->all());
         $this->assertInstanceOf(\Illuminate\Support\Collection::class, $collection);
     }
+
+    // test fpreach
+    public function testForEach(): void
+    {
+        $collection = collect([1,2,3]);
+        $collection->each(function ($item, $key) {
+            $this->assertIsInt($item);
+        });
+    }
+    // manual
+    public function testManualForEach(): void
+    {
+        $collection = collect([1,2,3]);
+        foreach ($collection as $item) {
+            $this->assertIsInt($item);
+        }
+    }
 }
