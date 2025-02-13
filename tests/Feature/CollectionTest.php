@@ -25,6 +25,7 @@ class CollectionTest extends TestCase
         $collection = collect([1,2,3]);
         $collection->each(function ($item, $key) {
             $this->assertIsInt($item);
+            $this->assertEquals($key+1, $item);
         });
     }
     // manual
@@ -34,5 +35,15 @@ class CollectionTest extends TestCase
         foreach ($collection as $item) {
             $this->assertIsInt($item);
         }
+    }
+
+    // push, pop
+    public function testPushPop(): void
+    {
+        $collection = collect([1,2,3]);
+        $collection->push(4);
+        $this->assertEquals(4, $collection->pop());
+        $this->assertEquals(3, $collection->count());
+        $this->assertEquals(3, $collection->last());
     }
 }
