@@ -46,4 +46,17 @@ class CollectionTest extends TestCase
         $this->assertEquals(3, $collection->count());
         $this->assertEquals(3, $collection->last());
     }
+
+    // prepend, pull put
+    public function testPrependPullPut(): void
+    {
+        $collection = collect([1,2,3]);
+        $collection->prepend(0);
+        $this->assertEquals(0, $collection->first());
+        $this->assertEquals(4, $collection->count());
+        $this->assertEquals(0, $collection->pull(0));
+        $this->assertEquals(3, $collection->count());
+        $collection->put(0, 1);
+        $this->assertEquals(1, $collection->first());
+    }
 }
