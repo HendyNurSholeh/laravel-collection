@@ -69,4 +69,12 @@ class CollectionTest extends TestCase
         });
         $this->assertEqualsCanonicalizing([2,4,6], $collection->all());
     }
+
+    // mapInto
+    public function testMapInto(): void
+    {
+        $collection = collect([1,2,3]);
+        $collection = $collection->mapInto(\stdClass::class);
+        $this->assertInstanceOf(\stdClass::class, $collection->first());
+    }
 }
