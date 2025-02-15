@@ -106,14 +106,14 @@ class CollectionTest extends TestCase
     {
         $collection = collect([['hendy', 'nur'], ['joko', 'santoso']]);
         $collection = $collection->mapSpread(function ($firstName, $lastName) { // update second parameter
-            return [$firstName, $lastName]; // return both first and last names
+            return new Person($firstName . ' ' . $lastName); // return both first and last names
         });
-        $this->assertEqualsCanonicalizing([['hendy', 'nur'], ['joko', 'santoso']], $collection->all()); // update expected values
+        $this->assertEqualsCanonicalizing([new Person('hendy nur'), new Person('joko santoso')], $collection->all()); // update expected value
+        
         $this->assertCount(2, $collection);
-        $this->assertEquals('hendy', $collection->first()[0]);
-        $this->assertEquals('nur', $collection->first()[1]);
-        $this->assertEquals('joko', $collection->last()[0]);
-        $this->assertEquals('santoso', $collection->last()[1]);
+        $this->assertInstanceOf(Person::class, $collection->first());
+        $this->assertEquals(new Person('hendy nur'), $collection->first());
+        $this->assertEquals(new Person('joko santoso'), $collection->last());
     }
     
     
