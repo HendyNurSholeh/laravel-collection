@@ -100,5 +100,21 @@ class CollectionTest extends TestCase
         $this->assertEquals(new Person("hendy"), $resultMapInto->first());
         $this->assertEquals([new Person("hendy"), new Person("joko")], $resultMapInto->all());
     }
+
+    // test map spread
+    public function testMapSpread(): void
+    {
+        $collection = collect([['hendy', 'nur'], ['joko', 'santoso']]);
+        $collection = $collection->mapSpread(function ($firstName, $lastName) { // update second parameter
+            return [$firstName, $lastName]; // return both first and last names
+        });
+        $this->assertEqualsCanonicalizing([['hendy', 'nur'], ['joko', 'santoso']], $collection->all()); // update expected values
+        $this->assertCount(2, $collection);
+        $this->assertEquals('hendy', $collection->first()[0]);
+        $this->assertEquals('nur', $collection->first()[1]);
+        $this->assertEquals('joko', $collection->last()[0]);
+        $this->assertEquals('santoso', $collection->last()[1]);
+    }
+    
     
 }
