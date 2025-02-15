@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Data\Person;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -77,4 +78,27 @@ class CollectionTest extends TestCase
         $collection = $collection->mapInto(\stdClass::class);
         $this->assertInstanceOf(\stdClass::class, $collection->first());
     }
+    public function testMapInto2(): void
+    {
+        $collection = collect(["hendy", "joko"]);
+        $result = $collection->mapInto(Person::class);
+        $resultMapInto = $collection->map(function ($item) {
+            return new Person($item);
+        });
+        
+        $this->assertCount(2, $result);
+        $this->assertInstanceOf(Person::class, $result->first());
+        $this->assertEquals(new Person("hendy"), $result->first());
+        $this->assertEquals([new Person("hendy"), new Person("joko")], $result->all());
+        
+
+
+        $this->assertEquals($result->all(), $resultMapInto->all());
+
+        $this->assertCount(2, $resultMapInto);
+        $this->assertInstanceOf(Person::class, $resultMapInto->first());
+        $this->assertEquals(new Person("hendy"), $resultMapInto->first());
+        $this->assertEquals([new Person("hendy"), new Person("joko")], $resultMapInto->all());
+    }
+    
 }
