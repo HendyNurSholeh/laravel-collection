@@ -115,6 +115,16 @@ class CollectionTest extends TestCase
         $this->assertEquals(new Person('hendy nur'), $collection->first());
         $this->assertEquals(new Person('joko santoso'), $collection->last());
     }
+
+    // test map to group
+    public function testMapToGroups(): void
+    {
+        $collection = collect([['name' => 'hendy', 'age' => 20], ['name' => 'joko', 'age' => 30], ['name' => 'santoso', 'age' => 30]]);
+        $collection = $collection->mapToGroups(function ($item, $key) {
+            return [$item['age'] => $item['name']];
+        });
+        $this->assertEqualsCanonicalizing([20 => ['hendy'], 30 => ['joko', 'santoso']], $collection->all());
+    }
     
     
 }
